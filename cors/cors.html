@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CORS</title>
+</head>
+<body>
+<!--
+   浏览器将cors请求分为两种： 简单请求、复杂请求
+   + 简单请求条件（同时满足以下两大条件）：
+        1、 HEAD GET POST 请求
+        2、 HTTP的头信息为下字段：
+        - Accept
+        - Accept-Language
+        - Content-Language
+        - Last-Event-ID
+        - Content-Type：只限于三个值application/x-www-form-urlencoded、multipart/form-data、text/plain
+
+        对于简单请求，浏览器直接发出cors请求（即在头信息中添加origin字段）
+
+  + 复杂请求
+        - 如请求方法是PUT/DELETE/CONNECT/OPTIONS/TRACE/PATCH，或者Content-Type字段的类型与简单请求相反
+        - 复杂请求的CORS请求，会在正式通信之前，增加一次HTTP查询请求，称为"预检"请求,
+          该请求是 option 方法的，通过该请求来判断服务端是否允许跨域请求。
+ -->
+<script>
+
+    let xhr = new XMLHttpRequest()
+    document.cookie = 'name=qj'
+    xhr.withCredentials = true
+    xhr.open("PUT","http://127.0.0.1:3000/test",true)
+    xhr.setRequestHeader('Content-Type', 'application/json')
+    xhr.onreadystatechange = function () {
+        if(xhr.readyState === 4) {
+            if((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
+                alert(xhr.responseText)
+            }
+        }
+    }
+    xhr.send(JSON.stringify({id: 1}))
+
+</script>
+
+</body>
+</html>

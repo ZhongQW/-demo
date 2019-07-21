@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>jsonp</title>
+</head>
+<body>
+<!--
+    优点： 简单，兼容性好，可用于解决主流浏览器的跨域数据访问
+    缺点： 只支持GET请求，具有局限性，（可能会遭受xss攻击）
+ -->
+<script>
+    function jsonp({url, params, callback}) {
+        return new Promise((resolve, reject) => {
+            let script = document.createElement('script')
+            //由于promise不能访问到参数callback，所以将callback挂到window上
+            window[callback] = function show(data) {
+                resolve(data)
+                document.body.removeChild(script)
+            }
+            script.setAttribute('src', `${url}?param=${params.param}&callback=${callback}`)
+            document.body.appendChild(script)
+        })
+    }
+
+    jsonp({
+        url: 'http://127.0.0.1:5000/test',
+        params: {param: 'hello jsonp'},
+        callback: 'show'
+    }).then(data => {
+            alert(data)
+        }
+    )
+
+</script>
+
+</body>
+</html>

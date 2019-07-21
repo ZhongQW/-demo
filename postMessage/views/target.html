@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>target</title>
+</head>
+<body>
+<!--
+ message 的属性有: data   从其他 window 中传递过来的对象
+                  origin 调用 postMessage  时消息发送方窗口的 origin .
+                  source 对发送消息的窗口对象的引用
+
+-->
+<div>
+    <p>我是目标域</p>
+</div>
+<script>
+    window.onmessage = function (e) {
+        if (e.origin !== 'http://localhost:63342') {
+            return
+        }
+        e.source.postMessage('我是localhost:4000',e.origin)
+    }
+
+    // window.addEventListener('message',function (e) {
+    //     alert(e)
+    // })
+</script>
+
+</body>
+</html>

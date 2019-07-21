@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>websocket</title>
+</head>
+<body>
+<script>
+    var socket = new WebSocket('ws://localhost:3000')
+    socket.addEventListener('open',() => { //用于指定连接成功后的回调
+        socket.send('我是localhost:63342,你是？') //向服务端发送数据
+    })
+    socket.addEventListener('message',(e) => { //从服务端接受数据时的回调
+        alert(e.data)
+    })
+</script>
+
+</body>
+</html>
