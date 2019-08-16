@@ -13,7 +13,7 @@
     function jsonp({url, params, callback}) {
         return new Promise((resolve, reject) => {
             let script = document.createElement('script')
-            //由于promise不能访问到参数callback，所以将callback挂到window上
+            //为什么要挂在window上？
             window[callback] = function show(data) {
                 resolve(data)
                 document.body.removeChild(script)
