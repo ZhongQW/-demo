@@ -13,7 +13,7 @@
     function jsonp({url, params, callback}) {
         return new Promise((resolve, reject) => {
             let script = document.createElement('script')
-            //为什么要挂在window上？
+            //为什么要挂在window上？script标签上的属性src返回的callback回去全局找show函数，所以需要挂在全局
             window[callback] = function show(data) {
                 resolve(data)
                 document.body.removeChild(script)
